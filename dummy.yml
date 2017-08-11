@@ -1,0 +1,19 @@
+user: jimfan
+name: pytorch-squeezenet
+title: PyTorch Squeezenet
+tag: latest
+description: PyTorch Squeezenet image classification
+image: dummyai/py3-tf-gpu
+work_path: .
+assets:
+- ./labels.json
+resources:
+  memory: 512Mi
+  cpu: "1"
+  gpu: "1"
+labels: ["pytorch", "computer vision"]
+cmd:
+- pip install flask
+- pip install http://download.pytorch.org/whl/cu80/torch-0.2.0.post1-cp35-cp35m-manylinux1_x86_64.whl 
+- pip install torchvision
+- python serve_model.py
