@@ -1,0 +1,12 @@
+image: linxifan/py3-pytorch-cpu
+assets:
+- labels.json
+resources:
+  memory: 512Mi
+  cpu: "1"
+input_space:
+  img: Image
+output_space:
+  label: JSON
+cmd:
+- python serve_model.py
