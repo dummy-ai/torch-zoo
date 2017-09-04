@@ -1,8 +1,12 @@
 from flask import Flask, request, jsonify
-from object_classify import predict
+from pretrained_classifier import PretrainedClassifier
 from PIL import Image
 import base64
 from io import StringIO, BytesIO
+
+import sys
+model_name = sys.argv[1]
+classifier = PretrainedClassifier(model_name)
 
 
 app = Flask(__name__)
@@ -23,7 +27,7 @@ def detect():
     image_f.write(image_binary)
     image_f.seek(0)
     image = Image.open(image_f)
-    label = predict(image)
+    label = classifier.predict(image)
     return jsonify({
         'label': label
     })
@@ -37,7 +41,6 @@ def detect():
     # })
 
 
-if __name__ == '__main__':
-    PORT = 5900
-    print('server running at '+str(PORT))
-    app.run(debug=False, port=PORT, host='0.0.0.0')
+PORT = 5900
+print('server running at '+str(PORT))
+app.run(debug=False, port=PORT, host='0.0.0.0')
