@@ -36,7 +36,7 @@ class PretrainedClassifier():
         if model_name in MODEL_NAMES:
             model_name = MODEL_NAMES[model_name]
         else:
-            assert model_name in MODEL_NAMES.values()
+            assert model_name in MODEL_NAMES.values(), MODEL_NAMES
         self.net = getattr(models, model_name)(pretrained=True)
         self.labels = self.process_labels()
         self.normalize = Normalize(mean=[0.485, 0.456, 0.406],

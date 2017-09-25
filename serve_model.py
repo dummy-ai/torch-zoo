@@ -1,46 +1,12 @@
-from flask import Flask, request, jsonify
-from pretrained_classifier import PretrainedClassifier
-from PIL import Image
-import base64
-from io import StringIO, BytesIO
-
 import sys
-model_name = sys.argv[1]
+import moxel
+from pretrained_classifier import PretrainedClassifier
+
+model_name = 'SqueezeNet'
 classifier = PretrainedClassifier(model_name)
 
 
-app = Flask(__name__)
-
-@app.route('/', methods=['GET'])
-def health_check():
-    return jsonify({
-        'status': 'OK'
-    })
-
-
-@app.route('/', methods=['POST'])
-def detect():
-    data = request.json
-
-    image_binary = base64.b64decode(data['img'])
-    image_f = BytesIO()
-    image_f.write(image_binary)
-    image_f.seek(0)
-    image = Image.open(image_f)
-    label = classifier.predict(image)
-    return jsonify({
-        'label': label
-    })
-    # img_out = m.predict(image_np)['img_out']
-    # vis_file = BytesIO()
-    # scipy.misc.imsave(vis_file, img_out, format='png')
-    # vis_file.seek(0)
-    # vis_binary = vis_file.read()
-    # return jsonify({
-    #     'img_out': base64.b64encode(vis_binary).decode('utf-8'),
-    # })
-
-
-PORT = 5900
-print('server running at '+str(PORT))
-app.run(debug=False, port=PORT, host='0.0.0.0')
+def predict(img):
+    img = img.to_PIL()
+    label = classifier.predict(img)
+    return { 'label': label }

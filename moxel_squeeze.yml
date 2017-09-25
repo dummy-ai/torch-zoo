@@ -1,0 +1,12 @@
+name: squeezenet
+tag: latest
+image: moxel/py3-pytorch-cpu    # Docker environment to run the model with.
+assets:                 # A list of Model files, such as weights.
+- labels.json
+input_space:            # Input type annotations.
+  img: image
+output_space:           # Output type annotations.
+  label: str
+main:                   # Main entrypoint to serve the model.
+  type: python  
+  entrypoint: serve_model.py::predict
